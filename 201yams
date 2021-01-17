@@ -1,0 +1,86 @@
+#!/usr/bin/python3
+
+import sys
+from math import *
+
+def checkOccurence(nb):
+    for i in range(5):
+        if ((int)(sys.argv[i + 1]) == nb):
+            return (1)
+    return (0)
+
+def countOccurence(nb):
+    ret = 0
+    for i in range(5):
+        if ((int)(sys.argv[i + 1]) == nb):
+            ret += 1
+    return (ret)
+
+def calcul(which, goal):
+    res = 0
+    stock = 5 - goal
+    if goal >= which:
+        res = 100
+    else:
+        for x in range(which - goal, stock + 1):
+            res += (factorial(stock) / (factorial(x) * factorial(stock - x))) * pow(1 / 6, x) * pow(5 / 6, stock - x)
+        res = res * 100
+    return (res)
+
+if (sys.argv[6].startswith("yams")):
+    c = 0
+    b = 0
+    while b <= 5:
+        if sys.argv[b][0] == sys.argv[6][5]:
+            c += 1
+        b += 1
+    print("Chances to get a " + sys.argv[6][5] + " yams" + ": %0.2f%%" % (calcul(5, c)))
+if (sys.argv[6].startswith("pair")):
+    c = 0
+    b = 0
+    while b <= 5:
+        if sys.argv[b][0] == sys.argv[6][5]:
+            c += 1
+        b += 1
+    print("Chances to get a " + sys.argv[6][5] + " pair" + ": %0.2f%%" % (calcul(2, c)))
+if (sys.argv[6].startswith("three")):
+    c = 0
+    b = 0
+    while b <= 5:
+        if sys.argv[b][0] == sys.argv[6][6]:
+            c += 1
+        b += 1
+    print("Chances to get a " + sys.argv[6][6] + " three-of-a-kind" + ": %0.2f%%" % (calcul(3, c)))
+if (sys.argv[6].startswith("four")):
+    c = 0
+    b = 0
+    while b <= 5:
+        if sys.argv[b][0] == sys.argv[6][5]:
+            c += 1
+        b += 1
+    print("Chances to get a " + sys.argv[6][5] + " four-of-a-kind" + ": %0.2f%%" % (calcul(4, c)))
+if (sys.argv[6].startswith("straight")):
+    res = 0
+    if ((int)(sys.argv[6][9]) != 6):
+        numberOccurence = checkOccurence(1) + checkOccurence(2) + checkOccurence(3) + checkOccurence(4) + checkOccurence(5)
+    else:
+        numberOccurence = checkOccurence(2) + checkOccurence(3) + checkOccurence(4) + checkOccurence(5) + checkOccurence(6)
+    if (numberOccurence == 5):
+        res = 1
+    else:
+        res = factorial(5 - numberOccurence) / 6**(5 - numberOccurence)
+    print("Chances to get a " + sys.argv[6][9] + " straight" + ": %0.2f%%" % (res * 100))
+if (sys.argv[6].startswith("full")):
+    numberOccurence = countOccurence((int)(sys.argv[6][5]))
+    numberOccurence2 = countOccurence((int)(sys.argv[6][7]))
+    if (numberOccurence == 3 and numberOccurence2 == 2):
+        res = 1
+    else:
+        if (numberOccurence > 3):
+            numberOccurence = 3
+        if (numberOccurence2 > 2):
+            numberOccurence2 = 2
+        brelan = factorial(2 - numberOccurence2) / (factorial(2 - numberOccurence2) * factorial((2 - numberOccurence2) - (2 - numberOccurence2)))
+        pair = factorial(5 - numberOccurence - numberOccurence2) / (factorial(3 - numberOccurence2) * factorial((5 - numberOccurence2 - numberOccurence) - (3 - numberOccurence)))
+        res = (pair * brelan) / pow(6,(5 - numberOccurence - numberOccurence2))
+    print("Chances to get a " + sys.argv[6][5] + " full of " + sys.argv[6][7] + ": %0.2f%%" % (res * 100))
